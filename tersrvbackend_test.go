@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -9,7 +8,9 @@ import (
 )
 
 type ResponseWriter struct {
+
 }
+
 func (rw *ResponseWriter) Header() http.Header {
 	return nil
 }
