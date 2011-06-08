@@ -5,7 +5,6 @@ GOFILES=\
 	tersrvbackend.go\
 	datastructs.go\
 	rest.go\
-	dbprovider.go\
 	dbmongo.go\
 
 include $(GOROOT)/src/Make.cmd
