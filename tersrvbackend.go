@@ -13,21 +13,26 @@ import (
 	"github.com/Kissaki/rest.go"
 )
 
-const logPrefix = "TerREST"
+const LOG_PREFIX     = "TerREST: "
+const SERVER_HOST    = "127.0.0.1"
+const SERVER_PORT    = 8091
+const DATABASE_MONGO_ADDRESS = "localhost"
 
 // main program entry
 func main() {
-	log.SetPrefix(logPrefix)
+	log.SetPrefix(LOG_PREFIX)
 
 	log.Println("Starting REST Server")
-	address := "127.0.0.1:8091"
 
-	res := new(ServerResource)
-	rest.Resource("v1", res)
+	//TODO: RM example data   res := new(ServerResource)
+	db := NewDBMongo(DATABASE_MONGO_ADDRESS)
+	res := NewServerResource(db)
+	rest.Resource("v1", &res)
 
 	go func() {
-		if err := http.ListenAndServe(address, nil); err != nil {
-			log.Fatalln(err)
+		listenAddress := fmt.Sprint(SERVER_HOST, ":", SERVER_PORT)
+		if err := http.ListenAndServe(listenAddress, nil); err != nil {
+			panic(err)
 		}
 	}()
 
