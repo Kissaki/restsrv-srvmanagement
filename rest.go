@@ -4,7 +4,6 @@ import (
 	"os"
 	"fmt"
 	"http"
-	"strconv"
 	"time"
 
 	"github.com/Kissaki/rest.go"
@@ -59,14 +58,15 @@ func (s *ServerResource) Delete(resp http.ResponseWriter, id string) {
 	//TODO implement
 }
 func (s *ServerResource) Find(resp http.ResponseWriter, id string) {
-	iid, err := strconv.Atoi(id)
-	if err == nil {
-		if iid < len(servers) {
-			srv := servers[iid]
-			fmt.Fprintf(resp, "%d: %s<span class=\"hostname\">%s</span><br/>\n", srv.Id, srv.Name, srv.Hostname)
-		} else {
-			rest.NotFound(resp)
-		}
+	srv, err := s.db.FindServer(id)
+	if err != nil {
+		//TODO 500
+		return
+	}
+	if srv == nil {
+		rest.NotFound(resp)
+	} else {
+		fmt.Fprintf(resp, "%d: %s<span class=\"hostname\">%s</span><br/>\n", srv.Id, srv.Name, srv.Hostname)
 	}
 }
 func (s *ServerResource) HasAccess(req *http.Request) (hasAccess bool, err os.Error){

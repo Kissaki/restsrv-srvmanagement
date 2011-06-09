@@ -42,17 +42,33 @@ func (db *DBMongo) Close() {
 func (db *DBMongo) GetAllServers() (nrofsrvs int, servers []Server, err os.Error) {
 	qry := db.col.Find(bson.M{})
 	n, _ := qry.Count()
-	log.Println("MongoDB GetServers found ", n, " servers")
-	var res *Server
-	err = qry.For(&res, func() os.Error {
-		servers = append(servers, *res)
+	log.Println("DBM: GetServers found ", n, " servers")
+	var result *Server
+	err = qry.For(&result, func() os.Error {
+		servers = append(servers, *result)
     return nil
 	})
 	return len(servers), servers, err
 }
+func (db *DBMongo) FindServer(id string) (server *Server, err os.Error) {
+	qry := db.col.Find(bson.M{"_id": id})
+	if err == nil {
+		err = qry.One(&server)
+	}
+	return server, err
+}
+func (db *DBMongo) RemoveServer(id string) (err os.Error) {
+	err = db.col.RemoveAll(bson.M{"_id": id})
+	if err == nil {
+		log.Println("DBM: Removed server with ID ", id)
+	}
+	return err
+}
 func (db *DBMongo) RemoveAllServers() (err os.Error) {
 	err = db.col.RemoveAll(bson.M{})
-	log.Println("All servers removed")
+	if err == nil {
+		log.Println("DBM: All servers removed")
+	}
 	return err
 }
 
