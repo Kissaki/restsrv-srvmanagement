@@ -27,6 +27,7 @@ func init() {
 type ServerResource struct {
 	db *DBMongo
 }
+
 func NewServerResource(db *DBMongo) ServerResource {
 	return ServerResource{db: db}
 }
@@ -69,6 +70,6 @@ func (s *ServerResource) Find(resp http.ResponseWriter, id string) {
 		fmt.Fprintf(resp, "%d: %s<span class=\"hostname\">%s</span><br/>\n", srv.Id, srv.Name, srv.Hostname)
 	}
 }
-func (s *ServerResource) HasAccess(req *http.Request) (hasAccess bool, err os.Error){
+func (s *ServerResource) HasAccess(req *http.Request) (hasAccess bool, err os.Error) {
 	return true, err
 }

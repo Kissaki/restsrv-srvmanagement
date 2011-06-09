@@ -18,9 +18,10 @@ const DBCOLNAMESERVERS = "servers"
 // DB Object
 type DBMongo struct {
 	session *mgo.Session
-	db *mgo.Database
-	col *mgo.Collection
+	db      *mgo.Database
+	col     *mgo.Collection
 }
+
 func NewDBMongo(adr string) (db *DBMongo) {
 	var err os.Error
 	db = new(DBMongo)
@@ -46,7 +47,7 @@ func (db *DBMongo) GetAllServers() (nrofsrvs int, servers []Server, err os.Error
 	var result *Server
 	err = qry.For(&result, func() os.Error {
 		servers = append(servers, *result)
-    return nil
+		return nil
 	})
 	return len(servers), servers, err
 }

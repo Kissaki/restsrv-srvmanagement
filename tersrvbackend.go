@@ -13,9 +13,9 @@ import (
 	"github.com/Kissaki/rest.go"
 )
 
-const LOG_PREFIX     = "TerREST: "
-const SERVER_HOST    = "127.0.0.1"
-const SERVER_PORT    = 8091
+const LOG_PREFIX = "TerREST: "
+const SERVER_HOST = "127.0.0.1"
+const SERVER_PORT = 8091
 const DATABASE_MONGO_ADDRESS = "localhost"
 
 // main program entry
